@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rio Reivan Syahputra</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #7209b7 100%);
+            background-size: 400% 400%;
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+            animation: gradient-shift 8s ease infinite;
+        }
+
+        @keyframes gradient-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .header-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+            padding: 8px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: linear-gradient(45deg, #00f5ff, #ff0080);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle:hover span {
+            box-shadow: 0 0 10px rgba(0, 245, 255, 0.5);
+        }
+
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 200;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .side-menu.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .menu-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .menu-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            padding: 6rem 0 2rem 2rem;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .side-menu.active .menu-content {
+            transform: translateX(0);
+        }
+
+        .menu-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .menu-item {
+            color: #b3b3b3;
+            text-decoration: none;
+            font-size: 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 3px;
+            background: linear-gradient(45deg, #00f5ff, #ff0080);
+            transition: width 0.3s ease;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            color: #00f5ff;
+            text-shadow: 0 0 20px rgba(0, 245, 255, 0.5);
+            transform: translateX(1rem);
+        }
+
+        .menu-item:hover::before,
+        .menu-item.active::before {
+            width: 1.5rem;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #00f5ff, #0099ff, #8a2be2, #ff0080);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            animation: rainbow-text 2.5s ease-in-out infinite;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            z-index: -1;
+            animation: float-lights 6s ease-in-out infinite;
+        }
+
+        @keyframes float-lights {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(10px, -15px) scale(1.1);
+            }
+            66% {
+                transform: translate(-10px, 10px) scale(0.9);
+            }
+        }
+
+        .click-effect {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 245, 255, 0.6) 0%, transparent 70%);
+            pointer-events: none;
+            animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            100% {
+                width: 300px;
+                height: 300px;
+                opacity: 0;
+            }
+        }
+
+        .profile-container {
+            margin-bottom: 3rem;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00f5ff, #ff0080);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            position: relative;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .profile-image::before {
+            content: "RRS";
+            color: white;
+            font-size: 3rem;
+            font-weight: 700;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 20px rgba(0, 245, 255, 0.5);
+            }
+            to {
+                box-shadow: 0 0 40px rgba(255, 0, 128, 0.8), 0 0 60px rgba(0, 245, 255, 0.4);
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border: 2px solid #ff0080;
+            border-radius: 50px;
+            color: #ff0080;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
+            animation: pulse-border 2s infinite;
+        }
+
+        @keyframes pulse-border {
+            0%, 100% {
+                border-color: #ff0080;
+                box-shadow: 0 0 0 0 rgba(255, 0, 128, 0.7);
+            }
+            50% {
+                border-color: #00f5ff;
+                box-shadow: 0 0 0 10px rgba(0, 245, 255, 0);
+            }
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+            position: relative;
+        }
+
+        .hero-title .first-name,
+        .hero-title .last-name {
+            position: relative;
+            display: inline-block;
+            color: #ff69b4;
+            text-shadow: 
+                0 0 5px #ff69b4,
+                0 0 10px #ff69b4,
+                0 0 15px #ff69b4,
+                0 0 20px #ff69b4,
+                0 0 30px #ff69b4,
+                0 0 40px #ff69b4,
+                0 0 50px #ff69b4,
+                0 0 75px #ff69b4;
+            animation: glow-pulse 2s ease-in-out infinite alternate;
+        }
+
+        .hero-title .first-name {
+            animation-delay: 0s;
+        }
+
+        .hero-title .last-name {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes glow-pulse {
+            0% {
+                text-shadow: 
+                    0 0 5px #ff69b4,
+                    0 0 10px #ff69b4,
+                    0 0 15px #ff69b4,
+                    0 0 20px #ff69b4,
+                    0 0 30px #ff69b4,
+                    0 0 40px #ff69b4,
+                    0 0 50px #ff69b4,
+                    0 0 75px #ff69b4;
+            }
+            25% {
+                color: #00f5ff;
+                text-shadow: 
+                    0 0 5px #00f5ff,
+                    0 0 10px #00f5ff,
+                    0 0 15px #00f5ff,
+                    0 0 20px #00f5ff,
+                    0 0 30px #00f5ff,
+                    0 0 40px #00f5ff,
+                    0 0 50px #00f5ff,
+                    0 0 75px #00f5ff;
+            }
+            50% {
+                color: #8a2be2;
+                text-shadow: 
+                    0 0 5px #8a2be2,
+                    0 0 10px #8a2be2,
+                    0 0 15px #8a2be2,
+                    0 0 20px #8a2be2,
+                    0 0 30px #8a2be2,
+                    0 0 40px #8a2be2,
+                    0 0 50px #8a2be2,
+                    0 0 75px #8a2be2;
+            }
+            75% {
+                color: #ff0080;
+                text-shadow: 
+                    0 0 5px #ff0080,
+                    0 0 10px #ff0080,
+                    0 0 15px #ff0080,
+                    0 0 20px #ff0080,
+                    0 0 30px #ff0080,
+                    0 0 40px #ff0080,
+                    0 0 50px #ff0080,
+                    0 0 75px #ff0080;
+            }
+            100% {
+                color: #00ff88;
+                text-shadow: 
+                    0 0 5px #00ff88,
+                    0 0 10px #00ff88,
+                    0 0 15px #00ff88,
+                    0 0 20px #00ff88,
+                    0 0 30px #00ff88,
+                    0 0 40px #00ff88,
+                    0 0 50px #00ff88,
+                    0 0 75px #00ff88;
+            }
+        }
+
+        @keyframes rainbow-text {
+            0% {
+                background-position: 0% 50%;
+            }
+            25% {
+                background-position: 100% 50%;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+            75% {
+                background-position: 0% 100%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #b3b3b3;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: linear-gradient(45deg, #00f5ff, #ff0080);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.3);
+        }
+
+        .social-links {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            display: flex;
+            gap: 1.5rem;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .social-links.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .social-link {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            font-size: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            background: transparent;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            transition: transform 0.3s ease;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .social-link:hover::before {
+            transform: translateX(100%);
+        }
+
+        .whatsapp {
+            background: #25D366;
+        }
+
+        .whatsapp:hover {
+            transform: translateY(-8px) scale(1.1);
+            box-shadow: 0 20px 40px rgba(37, 211, 102, 0.4);
+        }
+
+        .whatsapp:hover .social-icon {
+            transform: scale(1.1);
+        }
+
+        .instagram {
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+        }
+
+        .instagram:hover {
+            transform: translateY(-8px) scale(1.1);
+            box-shadow: 0 20px 40px rgba(225, 48, 108, 0.4);
+        }
+
+        .discord {
+            background: #5865F2;
+        }
+
+        .discord:hover {
+            transform: translateY(-8px) scale(1.1);
+            box-shadow: 0 20px 40px rgba(88, 101, 242, 0.4);
+        }
+
+        .discord:hover .social-icon {
+            transform: scale(1.1);
+        }
+
+        /* Tutorial Instructions */
+        .icon-tutorial {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(0, 245, 255, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            color: white;
+            z-index: 1000;
+            display: none;
+            animation: fadeInScale 0.3s ease;
+        }
+
+        .icon-tutorial.show {
+            display: block;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .tutorial-title {
+            color: #00f5ff;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .tutorial-content {
+            line-height: 1.6;
+        }
+
+        .tutorial-content h4 {
+            color: #ff0080;
+            margin: 1rem 0 0.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        .tutorial-content ol, .tutorial-content ul {
+            margin: 0.5rem 0 0.5rem 1.5rem;
+        }
+
+        .tutorial-content li {
+            margin: 0.3rem 0;
+        }
+
+        .tutorial-content code {
+            background: rgba(0, 245, 255, 0.1);
+            color: #00f5ff;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .close-tutorial {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #ff0080;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .close-tutorial:hover {
+            transform: scale(1.2);
+        }
+
+        .tutorial-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            display: none;
+        }
+
+        .tutorial-overlay.show {
+            display: block;
+        }
+
+        .section {
+            padding: 4rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #00f5ff, #ff0080);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(45deg, #00f5ff, #ff0080);
+        }
+
+        .photo-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .photo-container {
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .photo-frame {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 3px solid;
+            border-image: linear-gradient(45deg, #00f5ff, #ff0080) 1;
+            border-radius: 20px;
+            padding: 1rem;
+            aspect-ratio: 3/4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .profile-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .photo-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .photo-frame:hover .photo-overlay {
+            opacity: 1;
+        }
+
+        .photo-frame:hover .profile-photo {
+            transform: scale(1.05);
+        }
+
+        .change-photo-btn {
+            text-align: center;
+            color: white;
+        }
+.change-photo-btn span {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .change-photo-btn p {
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .photo-placeholder {
+            text-align: center;
+            color: #888;
+            cursor: pointer;
+        }
+
+        .photo-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .photo-placeholder p {
+            font-size: 1.1rem;
+            opacity: 0.7;
+        }
+
+        .clock-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 250px;
+        }
+
+        .digital-clock {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 245, 255, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+.digital-clock::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00f5ff, #ff0080);
+            animation: scan-line 3s linear infinite;
+        }
+
+        @keyframes scan-line {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .time-display {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #00f5ff;
+            text-shadow: 
+                0 0 10px #00f5ff,
+                0 0 20px #00f5ff,
+                0 0 30px #00f5ff;
+            margin-bottom: 0.5rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .date-display {
+            font-size: 1.2rem;
+            color: #ff0080;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .timezone {
+            font-size: 1rem;
+            color: #888;
+            font-weight: 500;
+        }
+
+        .about-content {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #e0e0e0;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-10px);
+            border-color: #ff0080;
+            box-shadow: 0 20px 40px rgba(255, 0, 128, 0.2);
+        }
+
+        .info-card h3 {
+            font-size: 1.3rem;
+            color: #00f5ff;
+            margin-bottom: 0.5rem;
+        }
+
+        .hobbies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .hobby-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hobby-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00f5ff, #ff0080);
+        }
+
+        .hobby-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 245, 255, 0.2);
+        }
+
+        .hobby-card h3 {
+            font-size: 1.3rem;
+            color: #ff0080;
+            margin-bottom: 1rem;
+        }
+
+        .hobby-card p {
+            color: #b3b3b3;
+            line-height: 1.6;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #00f5ff, #ff0080);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: 55%;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 55%;
+            text-align: left;
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 2rem;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #00f5ff, #ff0080);
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.5);
+        }
+
+        .timeline-year {
+            color: #00f5ff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            color: #ff0080;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-desc {
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .nav-brand {
+                font-size: 1.2rem;
+                letter-spacing: 1px;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+                letter-spacing: 2px;
+            }
+            
+            .profile-image {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .profile-image::before {
+                font-size: 2rem;
+            }
+            
+            .timeline::before {
+                left: 2rem;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                margin-left: 4rem;
+                margin-right: 0;
+                text-align: left;
+            }
+            
+            .timeline-item::after {
+                left: 2rem;
+            }
+            
+            .photo-section {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .photo-container,
+            .clock-container {
+                max-width: 100%;
+            }
+            
+            .time-display {
+                font-size: 2.5rem;
+            }
+            
+            .section {
+                padding: 3rem 1rem;
+            }
+            
+            .social-links {
+                bottom: 1rem;
+                gap: 1rem;
+            }
+            
+            .social-link {
+                width: 60px;
+                height: 60px;
+                font-size: 1.8rem;
+            }
+            
+            .social-icon {
+                width: 35px;
+                height: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="header-nav">
+        <div class="nav-brand">RIO REIVAN SYAHPUTRA</div>
+        <div class="menu-toggle" id="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Side Navigation Menu -->
+    <div class="side-menu" id="side-menu">
+        <div class="menu-overlay" id="menu-overlay"></div>
+        <div class="menu-content">
+            <nav class="menu-nav">
+                <a href="#home" class="menu-item active">HOME</a>
+                <a href="#about" class="menu-item">TENTANG</a>
+                <a href="#hobbies" class="menu-item">HOBI & MINAT</a>
+                <a href="#education" class="menu-item">PENDIDIKAN</a>
+            </nav>
+        </div>
+    </div>
+
+    <section class="hero-section" id="home">
+        <div class="profile-container">
+            <div class="profile-image"></div>
+            <div class="badge">Student & Gamer</div>
+        </div>
+        
+        <h1 class="hero-title">
+            <div class="first-name">RIO REIVAN</div>
+            <div class="last-name">SYAHPUTRA</div>
+        </h1>
+        
+        <p class="hero-subtitle">
+            Pelajar SMK & Gaming Enthusiast dari Air Joman, Sumatra Utara. 
+            Mengembangkan minat di bidang teknologi dengan hobi bermain catur, badminton, dan gaming.
+        </p>
+        
+        <a href="#about" class="cta-button">DISCOVER MY JOURNEY →</a>
+    </section>
+
+    <!-- Social Media Links -->
+    <div class="social-links">
+        <a href="https://wa.me/6283838667783" target="_blank" class="social-link whatsapp" id="whatsapp-link">
+            <svg viewBox="0 0 24 24" class="social-icon">
+                <path fill="white" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893A11.821 11.821 0 0020.525 3.488"/>
+            </svg>
+        </a>
+        <a href="https://discord.gg/winseii._46187" target="_blank" class="social-link discord" id="discord-link">
+            <svg viewBox="0 0 24 24" class="social-icon">
+                <path fill="white" d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.211.375-.445.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418Z"/>
+            </svg>
+        </a>
+        <a href="https://instagram.com/winseii_" target="_blank" class="social-link instagram" id="instagram-link">
+            <svg viewBox="0 0 24 24" class="social-icon">
+                <path fill="white" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+        </a>
+    </div>
+
+    <!-- Tutorial Modal -->
+    <div class="tutorial-overlay" id="tutorial-overlay"></div>
+    <div class="icon-tutorial" id="icon-tutorial">
+        <button class="close-tutorial" id="close-tutorial">×</button>
+        <div class="tutorial-title">📱 Cara Mengganti Icon Social Media</div>
+        <div class="tutorial-content">
+            <h4>🎯 Metode 1: Ganti dengan Foto dari Penyimpanan</h4>
+            <ol>
+                <li>Klik kanan pada icon WhatsApp/Instagram/Discord → "Inspect Element"</li>
+                <li>Cari kode <code>&lt;svg&gt;</code> atau <code>&lt;img&gt;</code></li>
+                <li>Upload foto Anda ke layanan seperti <strong>imgur.com</strong> atau <strong>postimg.cc</strong></li>
+                <li>Copy link foto, ganti bagian <code>src=""</code> dengan link foto Anda</li>
+                <li>Contoh: <code>src="https://i.imgur.com/yourphoto.png"</code></li>
+            </ol>
+
+            <h4>🔧 Metode 2: Edit Langsung di Kode</h4>
+            <ol>
+                <li>Buka file HTML di text editor</li>
+                <li>Cari bagian <code>id="whatsapp-link"</code>, <code>id="discord-link"</code>, atau <code>id="instagram-link"</code></li>
+                <li>Ganti seluruh <code>&lt;svg&gt;...&lt;/svg&gt;</code> dengan:</li>
+                <li><code>&lt;img src="path/foto-anda.jpg" class="social-icon" alt="Icon"&gt;</code></li>
+            </ol>
+
+            <h4>📷 Tips untuk Foto Icon:</h4>
+            <ul>
+                <li>Ukuran ideal: 512x512px atau 1024x1024px</li>
+                <li>Format: PNG dengan background transparan</li>
+                <li>Foto bulat/persegi sesuai dengan design button</li>
+                <li>File size maksimal 1MB untuk loading cepat</li>
+            </ul>
+
+            <h4>🎮 Icon Platform yang Tersedia:</h4>
+            <ul>
+                <li>🟢 <strong>WhatsApp</strong>: Chat dan komunikasi</li>
+                <li>🟦 <strong>Discord</strong>: Gaming dan komunitas</li>
+                <li>🌈 <strong>Instagram</strong>: Foto dan social media</li>
+            </ul>
+
+            <h4>🚀 Shortcut Cepat:</h4>
+            <p>Tekan <code>Ctrl + Shift + I</code> untuk membuka Developer Tools, lalu edit langsung di browser untuk testing!</p>
+        </div>
+    </div>
+
+    <section id="about" class="section">
+        <h2 class="section-title">TENTANG SAYA</h2>
+        
+        <div class="photo-section">
+            <div class="photo-container">
+                <div class="photo-frame">
+                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAEsASwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD/2Q==" alt="Rio Reivan Syahputra" id="profile-photo" class="profile-photo">
+                    <div class="photo-overlay">
+                        <div class="change-photo-btn" id="change-photo-btn">
+                            <span>📷</span>
+                            <p>Klik untuk mengganti foto</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="clock-container">
+                <div class="digital-clock">
+                    <div class="time-display" id="current-time">17:36</div>
+                    <div class="date-display" id="current-date">20 Agustus 2025</div>
+                    <div class="timezone">WIB</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="about-content">
+            <p>Halo! Saya Rio Reivan Syahputra, lahir di Air Joman pada tanggal 15 Januari 2010. Saya adalah siswa SMK yang memiliki minat besar terhadap teknologi dan olahraga.</p>
+            <p>Sebagai seorang pelajar, saya senang mengeksplorasi dunia digital melalui gaming, mengasah strategi melalui permainan catur, dan menjaga kebugaran dengan bermain badminton.</p>
+            <p>Saya percaya bahwa kombinasi antara teknologi dan olahraga dapat membentuk karakter yang seimbang - kreativitas dari dunia digital dan disiplin dari olahraga.</p>
+        </div>
+        
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>📅 Tanggal Lahir</h3>
+                <p>15 Januari 2010</p>
+            </div>
+            <div class="info-card">
+                <h3>🏡 Tempat Lahir</h3>
+                <p>Air Joman</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="hobbies">
+        <h2 class="section-title">Hobi & Minat</h2>
+        <div class="hobbies-grid">
+            <div class="hobby-card">
+                <h3>♟️ Bermain Catur</h3>
+                <p>Mengasah kemampuan berpikir strategis dan analitis melalui permainan catur. Menikmati setiap tantangan yang membutuhkan perencanaan dan prediksi langkah.</p>
+            </div>
+            <div class="hobby-card">
+                <h3>🏸 Badminton</h3>
+                <p>Olahraga favorit untuk menjaga kebugaran fisik dan mental. Membangun koordinasi, kecepatan, dan daya tahan melalui latihan rutin.</p>
+            </div>
+            <div class="hobby-card">
+                <h3>🎮 Gaming</h3>
+                <p>Eksplorasi dunia digital dan teknologi melalui berbagai genre game. Mengembangkan kemampuan problem solving dan koordinasi mata-tangan.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="education">
+        <h2 class="section-title">Riwayat Pendidikan</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-year">2025 - Sekarang</div>
+                    <h3 class="timeline-title">SMK 10 Muhammadiyah Kisaran</h3>
+                    <p class="timeline-desc">Pendidikan menengah kejuruan dengan fokus pada pengembangan keterampilan teknis dan profesional di bidang teknologi.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-year">2022 - 2025</div>
+                    <h3 class="timeline-title">MTs Alwashliyah</h3>
+                    <p class="timeline-desc">Pendidikan menengah pertama dimana saya mulai mengembangkan minat terhadap teknologi dan mengasah hobi bermain catur serta badminton.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-year">2016 - 2022</div>
+                    <h3 class="timeline-title">SD Negeri</h3>
+                    <p class="timeline-desc">Pendidikan dasar dimana saya mulai mengembangkan minat di bidang pembelajaran dan olahraga, serta mengenal dunia gaming.</p>
+</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-year">2013 - 2016</div>
+                    <h3 class="timeline-title">TK Negeri</h3>
+                    <p class="timeline-desc">Awal perjalanan pendidikan formal dan pengembangan karakter dasar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling
+        document.querySelector('.cta-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('#about').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        // Menu functionality
+        const menuToggle = document.getElementById('menu-toggle');
+        const sideMenu = document.getElementById('side-menu');
+        const menuOverlay = document.getElementById('menu-overlay');
+        const menuItems = document.querySelectorAll('.menu-item');
+
+        // Toggle menu
+        menuToggle.addEventListener('click', function() {
+            sideMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking overlay
+        menuOverlay.addEventListener('click', function() {
+            sideMenu.classList.remove('active');
+        });
+
+        // Close menu when clicking menu item
+        menuItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                sideMenu.classList.remove('active');
+                
+                // Remove active class from all items
+                menuItems.forEach(menuItem => menuItem.classList.remove('active'));
+                // Add active class to clicked item
+                this.classList.add('active');
+                
+                // Smooth scroll to section
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Update active menu item on scroll
+        function updateActiveMenuItem() {
+            const sections = document.querySelectorAll('section');
+            const scrollPosition = window.scrollY + 100;
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    menuItems.forEach(item => item.classList.remove('active'));
+                    const activeItem = document.querySelector(`.menu-item[href="#${sectionId}"]`);
+                    if (activeItem) {
+                        activeItem.classList.add('active');
+                    }
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveMenuItem);
+
+        // Social links visibility on scroll
+        function toggleSocialLinks() {
+            const socialLinks = document.querySelector('.social-links');
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            
+            // Show social links when user scrolls past 70% of the page
+            const showThreshold = (documentHeight - windowHeight) * 0.7;
+            
+            if (scrollPosition > showThreshold) {
+                socialLinks.classList.add('show');
+            } else {
+                socialLinks.classList.remove('show');
+            }
+        }
+
+        // Listen for scroll events
+        window.addEventListener('scroll', toggleSocialLinks);
+
+        // Check on page load
+        toggleSocialLinks();
+
+        // Real-time clock
+        function updateClock() {
+            const now = new Date();
+            
+            // Format waktu (HH:MM)
+            const time = now.toLocaleTimeString('id-ID', {
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZone: 'Asia/Jakarta'
+            });
+            
+            // Format tanggal
+            const date = now.toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+                timeZone: 'Asia/Jakarta'
+            });
+            
+            document.getElementById('current-time').textContent = time;
+            document.getElementById('current-date').textContent = date;
+        }
+
+        // Update clock immediately and then every second
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // Photo placeholder click interaction
+        document.querySelector('.photo-placeholder').addEventListener('click', function() {
+            this.innerHTML = `
+                <div class="photo-icon">🖼️</div>
+                <p>Foto akan ditampilkan di sini</p>
+                <small style="opacity: 0.6;">Upload foto untuk mengganti placeholder</small>
+            `;
+        });
+
+        // Click effect animation
+        document.addEventListener('click', function(e) {
+            const clickEffect = document.createElement('div');
+            clickEffect.classList.add('click-effect');
+            
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            clickEffect.style.left = (x - 150) + 'px';
+            clickEffect.style.top = (y - 150) + 'px';
+            
+            document.body.appendChild(clickEffect);
+            
+            setTimeout(() => {
+                clickEffect.remove();
+            }, 1000);
+        });
+
+        // Touch effect for mobile
+        document.addEventListener('touchstart', function(e) {
+            const touch = e.touches[0];
+            const clickEffect = document.createElement('div');
+            clickEffect.classList.add('click-effect');
+            
+            const x = touch.clientX;
+            const y = touch.clientY;
+            
+            clickEffect.style.left = (x - 150) + 'px';
+            clickEffect.style.top = (y - 150) + 'px';
+            
+            document.body.appendChild(clickEffect);
+            
+            setTimeout(() => {
+                clickEffect.remove();
+            }, 1000);
+        });
+
+        // Parallax effect untuk background
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero-section::before');
+            const speed = scrolled * 0.5;
+        });
+
+        // Intersection Observer untuk animasi
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe semua elemen dengan class yang perlu dianimasi
+        document.querySelectorAll('.info-card, .hobby-card, .timeline-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
